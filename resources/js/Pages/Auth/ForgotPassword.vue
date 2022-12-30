@@ -6,6 +6,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import AuntheticationIllustration from '@/Components/AuntheticationIllustration.vue';
 
 defineProps({
     status: String,
@@ -21,15 +22,26 @@ const submit = () => {
 </script>
 
 <template>
+
     <Head title="Forgot Password" />
 
     <AuthenticationCard>
         <template #logo>
-            <AuthenticationCardLogo />
+            <div class="flex justify-between items-center">
+                <div class="flex justify-start items-center space-x-2">
+                    <AuthenticationCardLogo />
+                    <p class="text-3xl"><b>Laravel</b> Jarvis</p>
+                </div>
+            </div>
+        </template>
+        <template #illustration>
+            <p class="text-3xl"><b>Forgot</b> Password</p>
+            <AuntheticationIllustration type="login" class="w-72 h-auto" />
         </template>
 
-        <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+            Forgot your password? No problem. Just let us know your email address and we will email you a password reset
+            link that will allow you to choose a new one.
         </div>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -39,14 +51,7 @@ const submit = () => {
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                />
+                <TextInput id="email" v-model="form.email" type="email" class="mt-1 block w-full" required autofocus placeholder="email@email.com" />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 

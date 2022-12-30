@@ -7,6 +7,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import AuntheticationIllustration from '@/Components/AuntheticationIllustration.vue';
 
 const form = useForm({
     password: '',
@@ -26,30 +27,32 @@ const submit = () => {
 </script>
 
 <template>
+
     <Head title="Secure Area" />
 
     <AuthenticationCard>
         <template #logo>
-            <AuthenticationCardLogo />
+            <div class="flex justify-between items-center">
+                <div class="flex justify-start items-center space-x-2">
+                    <AuthenticationCardLogo />
+                    <p class="text-3xl"><b>Laravel</b> Jarvis</p>
+                </div>
+            </div>
+        </template>
+        <template #illustration>
+            <p class="text-3xl"><b>Confirm</b> Password</p>
+            <AuntheticationIllustration type="login" class="w-72 h-auto" />
         </template>
 
-        <div class="mb-4 text-sm text-gray-600">
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             This is a secure area of the application. Please confirm your password before continuing.
         </div>
 
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    ref="passwordInput"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="current-password"
-                    autofocus
-                />
+                <TextInput id="password" ref="passwordInput" v-model="form.password" type="password"
+                    class="mt-1 block w-full" required autocomplete="current-password" autofocus placeholder="********" />
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
