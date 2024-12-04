@@ -1,0 +1,122 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\{{modelName}}\{{modelName}}IndexRequest;
+use App\Http\Requests\{{modelName}}\{{modelName}}StoreRequest;
+use App\Http\Requests\{{modelName}}\{{modelName}}UpdateRequest;
+use App\Models\{{modelName}};
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class {{modelName}}Controller extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('permission:{{modelNameLowerCase}} create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:{{modelNameLowerCase}} read', ['only' => ['index', 'show']]);
+        $this->middleware('permission:{{modelNameLowerCase}} update', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:{{modelNameLowerCase}} delete', ['only' => ['destroy', 'destroyBulk']]);
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index({{modelName}}IndexRequest $request)
+    {
+        ${{modelNamePluralLowerCase}} = {{modelName}}::query();
+        if ($request->has('search')) {
+            ${{modelNamePluralLowerCase}}->where('name', 'LIKE', "%" . $request->search . "%");
+        }
+        if ($request->has(['field', 'order'])) {
+            ${{modelNamePluralLowerCase}}->orderBy($request->field, $request->order);
+        }
+        $perPage = $request->has('perPage') ? $request->perPage : 10;
+        return Inertia::render('{{modelName}}/Index', [
+            'title'         => "{{modelName}}",
+            'filters'       => $request->all(['search', 'field', 'order']),
+            'perPage'       => (int) $perPage,
+            '{{modelNamePluralLowerCase}}'   => ${{modelNamePluralLowerCase}}->with('user')->paginate($perPage)->onEachSide(0),
+            'breadcrumbs'   => [['label' => "{{modelName}}", 'href' => route('{{modelNameLowerCase}}.index')]],
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store({{modelName}}StoreRequest $request)
+    {
+        try {
+            ${{modelNameLowerCase}} = {{modelName}}::create([
+                'user_id'   => auth()->user()->id,
+                'name'      => $request->name,
+            ]);
+            return back()->with('success', __('app.label.created_successfully', ['name' => ${{modelNameLowerCase}}->name]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => "{{modelName}}"]) . $th->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show({{modelName}} ${{modelNameLowerCase}})
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit({{modelName}} ${{modelNameLowerCase}})
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update({{modelName}}UpdateRequest $request, {{modelName}} ${{modelNameLowerCase}})
+    {
+        try {
+            ${{modelNameLowerCase}}->update([
+                'user_id'   => auth()->user()->id,
+                'name'      => $request->name,
+            ]);
+            return back()->with('success', __('app.label.updated_successfully', ['name' => ${{modelNameLowerCase}}->name]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.updated_error', ['name' => ${{modelNameLowerCase}}->name]) . $th->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy({{modelName}} ${{modelNameLowerCase}})
+    {
+        try {
+            ${{modelNameLowerCase}}->delete();
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => ${{modelNameLowerCase}}->name]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.deleted_error', ['name' => ${{modelNameLowerCase}}->name]) . $th->getMessage());
+        }
+    }
+
+    public function destroyBulk(Request $request)
+    {
+        try {
+            ${{modelNamePluralLowerCase}} = {{modelName}}::whereIn('id', $request->id);
+            ${{modelNamePluralLowerCase}}->delete();
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => count($request->id) . ' ' . "{{modelName}}"]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.deleted_error', ['name' => count($request->id) . ' ' . "{{modelName}}"]) . $th->getMessage());
+        }
+    }
+}
