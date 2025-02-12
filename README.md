@@ -157,12 +157,17 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+
+    /**
+     * This line is for prevent CORS error when developing environment
+     * Change with your local development domain
+     * In this case, I'm using http://jarvis.test provided by Laragon
+     * If you're using Valet, you can use http://jarvis.test
+     * Or if you're using XAMPP, you can use http://localhost:your-port (default is 80)
+     */
     server: {
         cors: {
-            origin: [
-                'https://backend.laravel',
-                'http://admin.laravel:8566',
-            ],
+            origin: ["http://jarvis.test"],
         },
     },
 });
