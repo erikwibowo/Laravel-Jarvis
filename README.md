@@ -104,7 +104,7 @@ DB_PASSWORD=
 ```
 
 SETTING UP EMAIL for Email Verification
- Or disable verification email. <a target="_blank" href="https://laravel.com/docs/10.x/verification">Read more</a>
+Or disable verification email. <a target="_blank" href="https://laravel.com/docs/10.x/verification">Read more</a>
 
 ```bash
 MAIL_MAILER=smtp
@@ -133,6 +133,39 @@ Start the Laravel Developement Server
 
 ```bash
 php artisan serve
+```
+
+## Dealing with Cors
+
+If you are experiencing Cross-Origin Resource Sharing (CORS) issues in the browser while fetching assets from the Vite dev server, you may need to grant your custom origin access to the dev server.
+The easiest way to allow a custom origin for your project is to ensure that your application's APP_URL environment variable matches the origin you are visiting in your browser. For example, if you visiting `APP_URL=https://jarvis.test`, you should update your .env to match:
+
+```bash
+APP_URL=https://jarvis.test
+```
+
+If you need more fine-grained control over the origins, such as supporting multiple origins, you should utilize Vite's comprehensive and flexible built-in CORS server configuration. For example, you may specify multiple origins in the `server.cors.origin` configuration option in the project's `vite.config.js` file:
+
+```bash
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: 'resources/js/app.js',
+            refresh: true,
+        }),
+    ],
+    server: {
+        cors: {
+            origin: [
+                'https://backend.laravel',
+                'http://admin.laravel:8566',
+            ],
+        },
+    },
+});
 ```
 
 ## Login With
@@ -168,7 +201,6 @@ password : operator
 -   [VueUse](https://vueuse.org/)
 -   [Hero Icons](https://heroicons.com/)
 -   [HeadlessUI](https://headlessui.com/)
-
 
 # License
 
