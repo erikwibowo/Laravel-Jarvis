@@ -173,6 +173,11 @@ export default defineConfig({
 });
 ```
 
+and final touch is optimize the config to apply the change by running this script:
+```
+php artisan optimize
+```
+
 ## Login With
 
 ### Superadmin
