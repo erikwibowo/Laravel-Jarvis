@@ -18,3 +18,22 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+#Add by AI
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.AppleDouble
+.LSOverride
+Icon
+.Spotlight-V100
+._*
+.Trashes
+._.DS_Store
+.sass-cache
+npm-debug.log.*
+.env.local
+.env.test.local
+.env.development.local
+.env.production.local
