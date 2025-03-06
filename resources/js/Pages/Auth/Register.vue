@@ -72,9 +72,9 @@ const submit = () => {
 
                         <div class="ml-2">
                             {{ lang().label.i_agree_to_the }} <a target="_blank" :href="route('terms.show')"
-                                class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">{{ lang().label.terms_of_service }}</a>
+                                class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">{{ lang().label.terms_of_service }}</a>
                             {{ lang().label.and }} <a target="_blank" :href="route('policy.show')"
-                                class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">{{ lang().label.privacy_policy }}</a>
+                                class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">{{ lang().label.privacy_policy }}</a>
                         </div>
                     </div>
                     <InputError class="mt-2" :message="form.errors.terms" />
@@ -83,7 +83,7 @@ const submit = () => {
 
             <div class="flex items-center justify-between mt-4">
                 <Link :href="route('login')"
-                    class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">
+                    class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">
                 {{ lang().label.already_registered }}
                 </Link>
 

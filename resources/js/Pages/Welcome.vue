@@ -20,7 +20,7 @@ defineProps({
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <div class="mt-16">
                 <div
-                    class="grid grid-cols-1 scale-100 p-6 bg-white dark:bg-slate-800/50 dark:bg-gradient-to-bl from-slate-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded shadow-2xl shadow-slate-500/20 dark:shadow-none motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-primary max-w-xl"
+                    class="grid grid-cols-1 scale-100 p-6 bg-white dark:bg-slate-800/50 dark:bg-linear-to-bl from-slate-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-sm shadow-2xl shadow-slate-500/20 dark:shadow-none motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-primary max-w-xl"
                 >
                     <div class="flex items-center justify-between">
                         <Link
@@ -53,7 +53,7 @@ defineProps({
                             <Link
                                 v-if="$page.props.auth.user"
                                 :href="route('dashboard')"
-                                class="font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded focus:outline-primary"
+                                class="font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-primary"
                             >
                                 {{ lang().label.dashboard }}</Link
                             >
@@ -61,7 +61,7 @@ defineProps({
                             <template v-else>
                                 <Link
                                     :href="route('login')"
-                                    class="font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded focus:outline-primary"
+                                    class="font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-primary"
                                 >
                                     {{ lang().label.login }}</Link
                                 >
@@ -69,7 +69,7 @@ defineProps({
                                 <Link
                                     v-if="canRegister"
                                     :href="route('register')"
-                                    class="ml-4 font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded focus:outline-primary"
+                                    class="ml-4 font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-primary"
                                 >
                                     {{ lang().label.register }}</Link
                                 >

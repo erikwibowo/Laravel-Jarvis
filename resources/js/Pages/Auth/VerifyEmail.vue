@@ -41,11 +41,11 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 
                 <div>
                     <Link :href="route('profile.show')"
-                        class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">
+                        class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800">
                     {{ lang().label.edit_profile }}</Link>
 
                     <Link :href="route('logout')" method="post" as="button"
-                        class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800 ml-2">
+                        class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800 ml-2">
                     {{ lang().label.logout }}
                     </Link>
                 </div>

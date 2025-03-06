@@ -151,7 +151,7 @@ const select = () => {
                                 >
                                     <input
                                         @change="select"
-                                        class="rounded dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-primary dark:text-primary shadow-sm focus:ring-primary/80 dark:focus:ring-primary dark:focus:ring-offset-slate-800 dark:checked:bg-primary dark:checked:border-primary"
+                                        class="rounded-sm dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-primary dark:text-primary shadow-xs focus:ring-primary/80 dark:focus:ring-primary dark:focus:ring-offset-slate-800 dark:checked:bg-primary dark:checked:border-primary"
                                         type="checkbox"
                                         :id="'permission_' + permissiondata.id"
                                         :value="permissiondata.id"

@@ -18,7 +18,7 @@ defineProps({
                 </div>
 
                 <div
-                    class="w-full sm:max-w-2xl mt-6 p-6 bg-white dark:bg-slate-800 shadow overflow-hidden sm:rounded prose dark:prose-invert"
+                    class="w-full sm:max-w-2xl mt-6 p-6 bg-white dark:bg-slate-800 shadow-sm overflow-hidden sm:rounded-sm prose dark:prose-invert"
                     v-html="terms"
                 />
             </div>

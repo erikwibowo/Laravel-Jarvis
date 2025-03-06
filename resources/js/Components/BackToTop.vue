@@ -21,7 +21,7 @@ window.addEventListener("scroll", () => {
         v-show="data.show"
         @click="toTop"
         v-tooltip="lang().label.back_to_top"
-        class="h-10 w-10 bg-primary/50 fixed flex m-auto justify-center items-center z-[9999] bottom-4 right-4 rounded text-white hover:bg-primary cursor-pointer"
+        class="h-10 w-10 bg-primary/50 fixed flex m-auto justify-center items-center z-9999 bottom-4 right-4 rounded-sm text-white hover:bg-primary cursor-pointer"
     >
         <ArrowSmallUpIcon class="w-6 h-6" />
     </a>

@@ -54,7 +54,7 @@ const toBase64 = (file) =>
 <template>
     <label
         :for="props.source"
-        class="mt-1 text-slate-400 dark:text-slate-600 border-4 border-dashed border-slate-300 dark:border-slate-600 overflow-hidden flex justify-center items-center hover:cursor-pointer rounded"
+        class="mt-1 text-slate-400 dark:text-slate-600 border-4 border-dashed border-slate-300 dark:border-slate-600 overflow-hidden flex justify-center items-center hover:cursor-pointer rounded-sm"
         v-tooltip="props.tooltip"
     >
         <div

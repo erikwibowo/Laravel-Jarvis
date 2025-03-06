@@ -38,7 +38,7 @@ const logout = () => {
                     <div class="shrink-0 flex items-center">
                         <button
                             @click="emit('open')"
-                            class="inline-flex md:hidden items-center justify-center p-2 rounded text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 focus:outline-none focus:bg-slate-100 dark:focus:bg-slate-900 focus:text-slate-500 dark:focus:text-slate-400 transition duration-150 ease-in-out mr-4"
+                            class="inline-flex md:hidden items-center justify-center p-2 rounded-sm text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 focus:outline-hidden focus:bg-slate-100 dark:focus:bg-slate-900 focus:text-slate-500 dark:focus:text-slate-400 transition duration-150 ease-in-out mr-4"
                         >
                             <Bars3BottomLeftIcon class="w-6 h-auto" />
                         </button>
@@ -56,7 +56,7 @@ const logout = () => {
                         target="_blank"
                         v-tooltip="lang().label.go_to_webiste"
                         :href="route('index')"
-                        class="inline-flex items-center justify-center p-2 rounded text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 focus:outline-none focus:bg-slate-100 dark:focus:bg-slate-900 focus:text-slate-500 dark:focus:text-slate-400 transition duration-150 ease-in-out mr-4"
+                        class="inline-flex items-center justify-center p-2 rounded-sm text-slate-400 dark:text-slate-500 hover:text-slate-500 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 focus:outline-hidden focus:bg-slate-100 dark:focus:bg-slate-900 focus:text-slate-500 dark:focus:text-slate-400 transition duration-150 ease-in-out mr-4"
                     >
                         <GlobeAltIcon class="w-6 h-auto" />
                     </a>
@@ -69,10 +69,10 @@ const logout = () => {
                             width="60"
                         >
                             <template #trigger>
-                                <span class="inline-flex rounded">
+                                <span class="inline-flex rounded-sm">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 focus:outline-none focus:bg-slate-50 dark:focus:bg-slate-700 active:bg-slate-50 dark:active:bg-slate-700 transition ease-in-out duration-150"
+                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-sm text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 focus:outline-hidden focus:bg-slate-50 dark:focus:bg-slate-700 active:bg-slate-50 dark:active:bg-slate-700 transition ease-in-out duration-150"
                                     >
                                         {{
                                             $page.props.auth.user.current_team
@@ -203,10 +203,10 @@ const logout = () => {
                                         $page.props.jetstream
                                             .managesProfilePhotos
                                     "
-                                    class="flex text-sm border-2 border-transparent rounded focus:outline-none focus:border-slate-300 transition"
+                                    class="flex text-sm border-2 border-transparent rounded-sm focus:outline-hidden focus:border-slate-300 transition"
                                 >
                                     <img
-                                        class="h-8 w-8 rounded object-cover"
+                                        class="h-8 w-8 rounded-sm object-cover"
                                         :src="
                                             $page.props.auth.user
                                                 .profile_photo_url
@@ -215,10 +215,10 @@ const logout = () => {
                                     />
                                 </button>
 
-                                <span v-else class="inline-flex rounded">
+                                <span v-else class="inline-flex rounded-sm">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 focus:outline-none focus:bg-slate-50 dark:focus:bg-slate-700 active:bg-slate-50 dark:active:bg-slate-700 transition ease-in-out duration-150"
+                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-sm text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 focus:outline-hidden focus:bg-slate-50 dark:focus:bg-slate-700 active:bg-slate-50 dark:active:bg-slate-700 transition ease-in-out duration-150"
                                     >
                                         {{ $page.props.auth.user.name }}
 

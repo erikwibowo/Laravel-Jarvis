@@ -2,10 +2,10 @@
     <transition name="slide-fade">
         <div
             v-if="flash.success && isVisible"
-            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-[100]"
+            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-100"
         >
             <div
-                class="flex p-4 justify-between items-center bg-green-600 rounded shadow"
+                class="flex p-4 justify-between items-center bg-green-600 rounded-sm shadow-sm"
             >
                 <div>
                     <CheckCircleIcon
@@ -20,7 +20,7 @@
                 <button
                     @click="toggle"
                     type="button"
-                    class="ml-auto bg-white/20 text-white rounded focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
+                    class="ml-auto bg-white/20 text-white rounded-sm focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
                 >
                     <span class="sr-only">Close</span>
                     <XMarkIcon class="w-5 h-5" />
@@ -31,10 +31,10 @@
     <transition name="slide-fade">
         <div
             v-if="flash.info && isVisible"
-            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-[100]"
+            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-100"
         >
             <div
-                class="flex p-4 justify-between items-center bg-primary shadow rounded"
+                class="flex p-4 justify-between items-center bg-primary shadow-sm rounded-sm"
             >
                 <div>
                     <InformationCircleIcon
@@ -49,7 +49,7 @@
                 <button
                     @click="toggle"
                     type="button"
-                    class="ml-auto bg-white/20 text-white rounded focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
+                    class="ml-auto bg-white/20 text-white rounded-sm focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
                 >
                     <span class="sr-only">Close</span>
                     <XMarkIcon class="w-5 h-5" />
@@ -60,10 +60,10 @@
     <transition name="slide-fade">
         <div
             v-if="flash.warning && isVisible"
-            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-[100]"
+            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-100"
         >
             <div
-                class="flex p-4 justify-between items-center bg-amber-600 rounded shadow"
+                class="flex p-4 justify-between items-center bg-amber-600 rounded-sm shadow-sm"
             >
                 <div>
                     <ExclamationTriangleIcon
@@ -78,7 +78,7 @@
                 <button
                     @click="toggle"
                     type="button"
-                    class="ml-auto bg-white/20 text-white rounded focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
+                    class="ml-auto bg-white/20 text-white rounded-sm focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
                 >
                     <span class="sr-only">Close</span>
                     <XMarkIcon class="w-5 h-5" />
@@ -89,10 +89,10 @@
     <transition name="slide-fade">
         <div
             v-if="flash.error && isErrorVisible"
-            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-[100]"
+            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-100"
         >
             <div
-                class="flex p-4 justify-between items-center bg-rose-600 rounded shadow"
+                class="flex p-4 justify-between items-center bg-rose-600 rounded-sm shadow-sm"
             >
                 <div>
                     <ExclamationCircleIcon
@@ -107,7 +107,7 @@
                 <button
                     @click="toggle"
                     type="button"
-                    class="ml-auto bg-white/20 text-white rounded focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
+                    class="ml-auto bg-white/20 text-white rounded-sm focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
                 >
                     <XMarkIcon class="w-5 h-5" />
                 </button>

@@ -36,7 +36,7 @@ const toBase64 = (file) =>
     <div>
         <label
             for="images"
-            class="mt-1 w-full text-slate-600 dark:text-slate-400 border-4 border-dashed border-slate-600 dark:border-slate-400 overflow-hidden flex justify-center items-center hover:cursor-pointer rounded p-2"
+            class="mt-1 w-full text-slate-600 dark:text-slate-400 border-4 border-dashed border-slate-600 dark:border-slate-400 overflow-hidden flex justify-center items-center hover:cursor-pointer rounded-sm p-2"
         >
             <div
                 v-if="data.images.length == 0"
@@ -49,7 +49,7 @@ const toBase64 = (file) =>
             <div v-else class="h-full grid grid-cols-2 md:grid-cols-3 gap-2">
                 <label
                     for="images"
-                    class="mt-1 w-full text-slate-600 dark:text-slate-400 border-2 border-dashed border-slate-300 dark:border-slate-400 overflow-hidden flex justify-center items-center hover:cursor-pointer rounded"
+                    class="mt-1 w-full text-slate-600 dark:text-slate-400 border-2 border-dashed border-slate-300 dark:border-slate-400 overflow-hidden flex justify-center items-center hover:cursor-pointer rounded-sm"
                     v-tooltip="'Click to add some images'"
                 >
                     <PlusIcon class="w-16 h-16" />
@@ -61,7 +61,7 @@ const toBase64 = (file) =>
                     <div class="relative">
                         <img
                             @click.prevent
-                            class="w-60 h-auto rounded object-center object-cover"
+                            class="w-60 h-auto rounded-sm object-center object-cover"
                             :src="image"
                             alt="Image"
                         />
