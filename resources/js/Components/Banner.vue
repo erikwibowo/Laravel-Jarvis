@@ -26,13 +26,13 @@ setTimeout(() => {
     <transition name="slide-fade">
         <div
             v-if="show && message"
-            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-[100]"
+            class="fixed top-4 right-4 w-8/12 md:w-6/12 lg:w-3/12 z-100"
         >
             <div
                 v-bind:class="
                     style == 'success' ? 'bg-green-500' : 'bg-blue-500'
                 "
-                class="flex p-4 justify-between items-center rounded shadow"
+                class="flex p-4 justify-between items-center rounded-sm shadow-sm"
             >
                 <div>
                     <CheckCircleIcon
@@ -53,7 +53,7 @@ setTimeout(() => {
                 <button
                     @click="show = false"
                     type="button"
-                    class="ml-auto bg-white/20 text-white rounded focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
+                    class="ml-auto bg-white/20 text-white rounded-sm focus:ring-2 focus:ring-white/50 p-1.5 hover:bg-white/30 h-8 w-8"
                 >
                     <span class="sr-only">Close</span>
                     <XMarkIcon class="w-5 h-5" />

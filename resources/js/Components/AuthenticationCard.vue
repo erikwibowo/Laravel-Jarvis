@@ -8,7 +8,7 @@ import ProfileAnimation from "@/Animations/profile.json";
         class="min-h-screen flex flex-col justify-center items-center pt-0 bg-slate-100 dark:bg-slate-900 space-y-4"
     >
         <div
-            class="w-full sm:max-w-3xl bg-white dark:bg-slate-800 shadow overflow-hidden sm:rounded sm:grid sm:grid-cols-2"
+            class="w-full sm:max-w-3xl bg-white dark:bg-slate-800 shadow-sm overflow-hidden sm:rounded-sm sm:grid sm:grid-cols-2"
         >
             <div class="px-6 py-8 space-y-4">
                 <div class="w-full flex justify-between items-center">

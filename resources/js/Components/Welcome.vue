@@ -5,7 +5,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 <template>
     <div>
         <div
-            class="p-6 lg:p-8 bg-white dark:bg-slate-800 dark:bg-gradient-to-bl dark:from-slate-700/50 dark:via-transparent border-b border-slate-200 dark:border-slate-700"
+            class="p-6 lg:p-8 bg-white dark:bg-slate-800 dark:bg-linear-to-bl dark:from-slate-700/50 dark:via-transparent border-b border-slate-200 dark:border-slate-700"
         >
             <div
                 class="flex justify-start items-center space-x-4 text-2xl md:text-4xl"

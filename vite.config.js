@@ -28,7 +28,7 @@ export default defineConfig({
      */
     server: {
         cors: {
-            origin: ["http://jarvis.test"],
+            origin: ["http://laravel-jarvis.test"],
         },
     },
 });

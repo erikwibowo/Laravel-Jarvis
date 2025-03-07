@@ -86,11 +86,11 @@ const select = () => {
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
                 <div
-                    class="bg-white dark:bg-slate-800 overflow-hidden shadow sm:rounded"
+                    class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-sm"
                 >
                     <Table>
                         <template #table-action>
-                            <div class="flex shrink-0 rounded overflow-hidden">
+                            <div class="flex shrink-0 rounded-sm overflow-hidden">
                                 <Create
                                     v-show="can(['user create'])"
                                     :title="props.title"
@@ -177,11 +177,11 @@ const select = () => {
                             <tr
                                 v-for="(user, index) in users.data"
                                 :key="index"
-                                class="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-200/30 hover:dark:bg-slate-900/20"
+                                class="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-200/30 dark:hover:bg-slate-900/20"
                             >
                                 <td class="whitespace-nowrap px-4 py-2">
                                     <input
-                                        class="rounded dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-primary dark:text-primary shadow-sm focus:ring-primary/80 dark:focus:ring-primary dark:focus:ring-offset-slate-800 dark:checked:bg-primary dark:checked:border-primary"
+                                        class="rounded-sm dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-primary dark:text-primary shadow-xs focus:ring-primary/80 dark:focus:ring-primary dark:focus:ring-offset-slate-800 dark:checked:bg-primary dark:checked:border-primary"
                                         type="checkbox"
                                         @change="select"
                                         :value="user.id"
@@ -202,7 +202,7 @@ const select = () => {
                                             <img
                                                 :src="user.profile_photo_url"
                                                 :alt="user.name"
-                                                class="rounded h-8 w-8 object-cover"
+                                                class="rounded-sm h-8 w-8 object-cover"
                                             />
                                         </div>
 
@@ -212,7 +212,7 @@ const select = () => {
                                             class="mt-2 shrink-0"
                                         >
                                             <span
-                                                class="block rounded w-8 h-8 bg-cover bg-no-repeat bg-center"
+                                                class="block rounded-sm w-8 h-8 bg-cover bg-no-repeat bg-center"
                                                 :style="
                                                     'background-image: url(\'' +
                                                     user.profile_photo_url +
@@ -258,7 +258,7 @@ const select = () => {
                                     class="whitespace-nowrap flex justify-end px-4 py-2"
                                 >
                                     <div
-                                        class="flex w-fit rounded overflow-hidden"
+                                        class="flex w-fit rounded-sm overflow-hidden"
                                     >
                                         <Edit
                                             v-show="can(['user update'])"

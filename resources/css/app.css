@@ -1,10 +1,44 @@
-:root {
-    --color-primary: 0 186 124;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/laravel/jetstream/**/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans:
+    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --color-primary: rgb(var(--base-color));
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer base {
+  :root {
+    --base-color: 9 135 219;
+  }
+}
 
 html {
     @apply text-slate-900 dark:text-white;
@@ -23,7 +57,7 @@ html {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-slate-400 rounded;
+    @apply bg-slate-400 rounded-sm;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
@@ -39,7 +73,7 @@ html {
 }
 
 .scrollbar-sidebar::-webkit-scrollbar-thumb {
-    @apply bg-white/30 dark:bg-primary/40 rounded;
+    @apply bg-white/30 dark:bg-primary/40 rounded-sm;
 }
 
 .scrollbar-sidebar::-webkit-scrollbar-thumb:hover {
@@ -55,7 +89,7 @@ html {
 }
 
 .scrollbar-table::-webkit-scrollbar-thumb {
-    @apply bg-slate-400 rounded;
+    @apply bg-slate-400 rounded-sm;
 }
 
 .scrollbar-table::-webkit-scrollbar-thumb:hover {

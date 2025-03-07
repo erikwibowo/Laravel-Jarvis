@@ -48,7 +48,7 @@ watchEffect(() => {
     </div>
     <div v-if="links.links.length > 3">
         <ul
-            class="hidden lg:flex justify-center items-center rounded overflow-hidden"
+            class="hidden lg:flex justify-center items-center rounded-sm overflow-hidden"
         >
             <li>
                 <button
@@ -82,7 +82,7 @@ watchEffect(() => {
             </li>
         </ul>
         <ul
-            class="flex lg:hidden justify-center items-center rounded overflow-hidden"
+            class="flex lg:hidden justify-center items-center rounded-sm overflow-hidden"
         >
             <li>
                 <button

@@ -25,10 +25,10 @@ const props = defineProps({
                     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                 >
                     <div
-                        class="bg-white dark:bg-slate-800 overflow-hidden shadow sm:rounded text-slate-800 dark:text-slate-200 flex gap-4"
+                        class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-sm text-slate-800 dark:text-slate-200 flex gap-4"
                     >
                         <div
-                            class="w-24 h-24 bg-sky-500 flex m-2 rounded justify-center items-center"
+                            class="w-24 h-24 bg-sky-500 flex m-2 rounded-sm justify-center items-center"
                         >
                             <UserIcon class="w-12 h-auto text-white" />
                         </div>
@@ -42,10 +42,10 @@ const props = defineProps({
                         </div>
                     </div>
                     <div
-                        class="bg-white dark:bg-slate-800 overflow-hidden shadow sm:rounded text-slate-800 dark:text-slate-200 flex gap-4"
+                        class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-sm text-slate-800 dark:text-slate-200 flex gap-4"
                     >
                         <div
-                            class="w-24 h-24 bg-emerald-500 flex m-2 rounded justify-center items-center"
+                            class="w-24 h-24 bg-emerald-500 flex m-2 rounded-sm justify-center items-center"
                         >
                             <KeyIcon class="w-12 h-auto text-white" />
                         </div>
@@ -59,10 +59,10 @@ const props = defineProps({
                         </div>
                     </div>
                     <div
-                        class="bg-white dark:bg-slate-800 overflow-hidden shadow sm:rounded text-slate-800 dark:text-slate-200 flex gap-4"
+                        class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-sm text-slate-800 dark:text-slate-200 flex gap-4"
                     >
                         <div
-                            class="w-24 h-24 bg-amber-500 flex m-2 rounded justify-center items-center"
+                            class="w-24 h-24 bg-amber-500 flex m-2 rounded-sm justify-center items-center"
                         >
                             <ShieldCheckIcon class="w-12 h-auto text-white" />
                         </div>

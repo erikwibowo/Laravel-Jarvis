@@ -95,12 +95,12 @@ const clearPhotoFileInput = () => {
 
                 <!-- Current Profile Photo -->
                 <div v-show="!photoPreview" class="mt-2">
-                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded h-20 w-20 object-cover">
+                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-sm h-20 w-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div v-show="photoPreview" class="mt-2">
-                    <span class="block rounded w-20 h-20 bg-cover bg-no-repeat bg-center"
+                    <span class="block rounded-sm w-20 h-20 bg-cover bg-no-repeat bg-center"
                         :style="'background-image: url(\'' + photoPreview + '\');'" />
                 </div>
 
@@ -135,7 +135,7 @@ const clearPhotoFileInput = () => {
                         {{ lang().label.email_address_is_unverified }}
 
                         <Link :href="route('verification.send')" method="post" as="button"
-                            class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800"
+                            class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-800"
                             @click.prevent="sendEmailVerification">
                         {{ lang().label.click_here_to_resend_verification_email }}
                         </Link>

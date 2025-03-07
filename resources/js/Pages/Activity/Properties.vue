@@ -30,7 +30,7 @@ const closeModal = () => {
 
             <template #content>
                 <div class="space-y-2">
-                    <div class="rounded overflow-hidden">
+                    <div class="rounded-sm overflow-hidden">
                         <json-viewer
                             copyable
                             boxed

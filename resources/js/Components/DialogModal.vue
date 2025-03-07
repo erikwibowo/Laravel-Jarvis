@@ -37,7 +37,7 @@ const close = () => {
             >
                 <slot name="title" />
                 <button
-                    class="inline-flex items-center p-2 border border-slate-200 dark:border-slate-700 text-sm leading-4 font-medium rounded text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 focus:outline-none focus:bg-slate-50 dark:focus:bg-slate-700 active:bg-slate-50 dark:active:bg-slate-700 transition ease-in-out duration-150"
+                    class="inline-flex items-center p-2 border border-slate-200 dark:border-slate-700 text-sm leading-4 font-medium rounded-sm text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 focus:outline-hidden focus:bg-slate-50 dark:focus:bg-slate-700 active:bg-slate-50 dark:active:bg-slate-700 transition ease-in-out duration-150"
                     @click.prevent="close"
                 >
                     <XMarkIcon class="w-4 h-auto" />
