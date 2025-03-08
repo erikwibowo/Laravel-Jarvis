@@ -5,18 +5,18 @@
         "build": "vite build && vite build --ssr"
     },
     "devDependencies": {
-        "@inertiajs/vue3": "^1.0.0",
+        "@inertiajs/vue3": "^2.0.5",
         "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/postcss": "^4.0.10",
         "@tailwindcss/typography": "^0.5.2",
         "@vitejs/plugin-vue": "^5.2.1",
-        "@vue/server-renderer": "^3.2.31",
+        "@vue/server-renderer": "^3.5.13",
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.14",
         "tailwindcss": "^4.0.10",
         "vite": "^6.2.0",
-        "vue": "^3.2.31"
+        "vue": "^3.5.13"
     },
     "dependencies": {
         "@headlessui/vue": "^1.7.12",
