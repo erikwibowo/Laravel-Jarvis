@@ -1,7 +1,7 @@
 <script setup>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import {
-ClockIcon,
+    ClockIcon,
     Cog6ToothIcon,
     KeyIcon,
     ShieldCheckIcon,
@@ -9,10 +9,13 @@ ClockIcon,
     UserIcon,
 } from "@heroicons/vue/24/outline";
 import { Link } from "@inertiajs/vue3";
+import MenuLabel from "../../Components/MenuLabel.vue";
+import NavLink from "../../Components/NavLink.vue";
 </script>
 
 <template>
     <div class="text-white">
+        <!--        Heder Section-->
         <div
             class="flex justify-center items-center border-b border-white/10 h-16 max-w-full px-3"
         >
@@ -26,12 +29,9 @@ import { Link } from "@inertiajs/vue3";
                 </p>
             </Link>
         </div>
+        <!--        Menus Section-->
         <ol class="pb-24 pt-6 space-y-2">
-            <li>
-                <span class="font-md uppercase font-semibold px-3">{{
-                    lang().label.main_menu
-                }}</span>
-            </li>
+            <MenuLabel :label-name="lang().label.main_menu" />
             <li
                 v-bind:class="
                     route().current('dashboard')
@@ -48,101 +48,68 @@ import { Link } from "@inertiajs/vue3";
                     <span>{{ lang().label.dashboard }}</span>
                 </Link>
             </li>
-            <li v-show="can(['user read', 'role read', 'permission read'])">
-                <span class="font-md uppercase font-semibold px-3">{{
-                    lang().label.access
-                }}</span>
-            </li>
-            <li
-                v-show="can(['user read'])"
-                v-bind:class="
-                    route().current('user.index')
-                        ? 'border-l-4 border-white font-semibold bg-white/20 dark:bg-primary/30'
-                        : ''
-                "
-                class="hover:bg-white/20 dark:hover:bg-primary/30"
+            <MenuLabel
+                :label-name="lang().label.access"
+                :needs="['user read', 'role read', 'permission read']"
+            />
+            <NavLink
+                :need="['user read']"
+                :href="'user.index'"
+                :active="'user.index'"
+                :link-name="lang().label.user"
             >
-                <Link
-                    :href="route('user.index')"
-                    class="flex items-center py-1.5 px-3 space-x-2"
-                >
+                <template #icon>
                     <UserIcon class="w-5 h-auto" />
-                    <span>{{ lang().label.user }}</span>
-                </Link>
-            </li>
-            <li
-                v-show="can(['role read'])"
-                v-bind:class="
-                    route().current('role.index')
-                        ? 'border-l-4 border-white font-semibold bg-white/20 dark:bg-primary/30'
-                        : ''
-                "
-                class="hover:bg-white/20 dark:hover:bg-primary/30"
+                </template>
+            </NavLink>
+
+            <NavLink
+                :need="['role read']"
+                :href="'role.index'"
+                :active="'role.index'"
+                :link-name="lang().label.role"
             >
-                <Link
-                    :href="route('role.index')"
-                    class="flex items-center py-1.5 px-3 space-x-2"
-                >
+                <template #icon>
                     <KeyIcon class="w-5 h-auto" />
-                    <span>{{ lang().label.role }}</span>
-                </Link>
-            </li>
-            <li
-                v-show="can(['permission read'])"
-                v-bind:class="
-                    route().current('permission.index')
-                        ? 'border-l-4 border-white font-semibold bg-white/20 dark:bg-primary/30'
-                        : ''
-                "
-                class="hover:bg-white/20 dark:hover:bg-primary/30"
+                </template>
+            </NavLink>
+
+            <NavLink
+                :need="['permission read']"
+                :href="'permission.index'"
+                :active="'permission.index'"
+                :link-name="lang().label.permission"
             >
-                <Link
-                    :href="route('permission.index')"
-                    class="flex items-center py-1.5 px-3 space-x-2"
-                >
+                <template #icon>
                     <ShieldCheckIcon class="w-5 h-auto" />
-                    <span>{{ lang().label.permission }}</span>
-                </Link>
-            </li>
-            <li v-show="can(['setting read'])">
-                <span class="font-md uppercase font-semibold px-3">{{
-                    lang().label.setting
-                }}</span>
-            </li>
-            <li
-                v-show="can(['setting read'])"
-                v-bind:class="
-                    route().current('setting.index')
-                        ? 'border-l-4 border-white font-semibold bg-white/20 dark:bg-primary/30'
-                        : ''
-                "
-                class="hover:bg-white/20 dark:hover:bg-primary/30"
+                </template>
+            </NavLink>
+
+            <MenuLabel
+                :label-name="lang().label.setting"
+                :needs="['setting read', 'activity read']"
+            />
+            <NavLink
+                :need="['setting read']"
+                :href="'setting.index'"
+                :active="'setting.index'"
+                :link-name="lang().label.setting"
             >
-                <Link
-                    :href="route('setting.index')"
-                    class="flex items-center py-1.5 px-3 space-x-2"
-                >
+                <template #icon>
                     <Cog6ToothIcon class="w-5 h-auto" />
-                    <span>{{ lang().label.setting }}</span>
-                </Link>
-            </li>
-            <li
-                v-show="can(['activity read'])"
-                v-bind:class="
-                    route().current('activity.index')
-                        ? 'border-l-4 border-white font-semibold bg-white/20 dark:bg-primary/30'
-                        : ''
-                "
-                class="hover:bg-white/20 dark:hover:bg-primary/30"
+                </template>
+            </NavLink>
+
+            <NavLink
+                :need="['activity read']"
+                :href="'activity.index'"
+                :active="'activity.index'"
+                :link-name="lang().label.activity"
             >
-                <Link
-                    :href="route('activity.index')"
-                    class="flex items-center py-1.5 px-3 space-x-2"
-                >
+                <template #icon>
                     <ClockIcon class="w-5 h-auto" />
-                    <span>{{ lang().label.activity }}</span>
-                </Link>
-            </li>
+                </template>
+            </NavLink>
         </ol>
     </div>
 </template>
