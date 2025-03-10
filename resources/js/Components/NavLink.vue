@@ -1,21 +1,30 @@
 <script setup>
-import { computed } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { Link } from "@inertiajs/vue3";
 
 const props = defineProps({
-    href: String,
-    active: Boolean,
-});
-
-const classes = computed(() => {
-    return props.active
-        ? 'inline-flex items-center px-1 pt-1 border-b-2 border-primary/80 dark:border-primary text-sm font-medium leading-5 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:border-indigo-700 transition duration-150 ease-in-out'
-        : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 focus:outline-hidden focus:text-slate-700 dark:focus:text-slate-300 focus:border-slate-300 dark:focus:border-slate-700 transition duration-150 ease-in-out';
+    href: { type: String, default: "#", required: true },
+    active: { type: String, required: true },
+    need: { type: Array || String, required: true },
+    linkName: { type: String, required: true },
 });
 </script>
 
 <template>
-    <Link :href="href" :class="classes">
-    <slot />
-    </Link>
+    <li
+        v-show="can(need)"
+        v-bind:class="
+            route().current(active)
+                ? 'border-l-4 border-white font-semibold bg-white/20 dark:bg-primary/30'
+                : ''
+        "
+        class="hover:bg-white/20 dark:hover:bg-primary/30"
+    >
+        <Link
+            :href="route(href)"
+            class="flex items-center py-1.5 px-3 space-x-2"
+        >
+            <slot name="icon"></slot>
+            <span>{{ linkName }}</span>
+        </Link>
+    </li>
 </template>

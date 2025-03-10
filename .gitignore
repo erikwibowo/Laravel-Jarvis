@@ -21,6 +21,7 @@ yarn-error.log
 
 #Add by AI
 .DS_Store
+*.DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini
