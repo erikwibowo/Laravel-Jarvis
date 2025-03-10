@@ -123,16 +123,11 @@ Migrate Database with fresh seed
 php artisan migrate:fresh --seed
 ```
 
-Start the NPM server
+
+Start the Project Developement Server
 
 ```bash
-npm run dev
-```
-
-Start the Laravel Developement Server
-
-```bash
-php artisan serve
+composer run dev
 ```
 
 ## Dealing with Cors
