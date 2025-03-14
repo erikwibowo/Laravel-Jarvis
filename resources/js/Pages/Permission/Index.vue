@@ -7,13 +7,13 @@ import TablePagination from "@/Components/TablePagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Create from "@/Pages/Permission/Create.vue";
 import Edit from "@/Pages/Permission/Edit.vue";
-import Delete from "@/Pages/Permission/Delete.vue";
-import DeleteBulk from "@/Pages/Permission/DeleteBulk.vue";
 import { reactive, watch } from "vue";
 import pkg from "lodash";
 import { router } from "@inertiajs/vue3";
 import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 import Checkbox from "@/Components/Checkbox.vue";
+import DeleteBulkComponent from "../../Components/DeleteBulkComponent.vue";
+import DeleteComponent from "../../Components/DeleteComponent.vue";
 
 const { _, debounce, pickBy } = pkg;
 const props = defineProps({
@@ -50,7 +50,7 @@ watch(
             preserveState: true,
             preserveScroll: true,
         });
-    }, 150)
+    }, 150),
 );
 
 const selectAll = (event) => {
@@ -87,21 +87,24 @@ const select = () => {
                 >
                     <Table>
                         <template #table-action>
-                            <div class="flex shrink-0 rounded-sm overflow-hidden">
+                            <div
+                                class="flex shrink-0 rounded-sm overflow-hidden"
+                            >
                                 <Create
                                     v-show="can(['permission create'])"
                                     :title="props.title"
                                 />
-                                <DeleteBulk
+                                <DeleteBulkComponent
                                     v-show="
                                         data.selectedId.length != 0 &&
                                         can(['permission delete'])
                                     "
                                     :selectedId="data.selectedId"
                                     :title="props.title"
+                                    :endpoint="route('permission.destroy-bulk')"
                                     @close="
-                                        (data.selectedId = []),
-                                            (data.multipleSelect = false)
+                                        ((data.selectedId = []),
+                                        (data.multipleSelect = false))
                                     "
                                 />
                             </div>
@@ -207,11 +210,15 @@ const select = () => {
                                             :permission="data.permission"
                                             @open="data.permission = permission"
                                         />
-                                        <Delete
+                                        <DeleteComponent
                                             v-show="can(['permission delete'])"
                                             :title="props.title"
-                                            :permission="data.permission"
-                                            @open="data.permission = permission"
+                                            :endpoint="
+                                                route(
+                                                    'permission.destroy',
+                                                    permission.id,
+                                                )
+                                            "
                                         />
                                     </div>
                                 </td>

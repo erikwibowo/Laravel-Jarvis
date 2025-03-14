@@ -5,14 +5,14 @@ import Breadcrumb from "@/Layouts/Authenticated/Breadcrumb.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TablePagination from "@/Components/TablePagination.vue";
 import TextInput from "@/Components/TextInput.vue";
-import Delete from "@/Pages/Activity/Delete.vue";
-import DeleteBulk from "@/Pages/Activity/DeleteBulk.vue";
 import Properties from "@/Pages/Activity/Properties.vue";
 import { reactive, watch } from "vue";
 import pkg from "lodash";
 import { router } from "@inertiajs/vue3";
 import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 import Checkbox from "@/Components/Checkbox.vue";
+import DeleteBulkComponent from "../../Components/DeleteBulkComponent.vue";
+import DeleteComponent from "../../Components/DeleteComponent.vue";
 
 const { _, debounce, pickBy } = pkg;
 const props = defineProps({
@@ -49,7 +49,7 @@ watch(
             preserveState: true,
             preserveScroll: true,
         });
-    }, 150)
+    }, 150),
 );
 
 const selectAll = (event) => {
@@ -86,17 +86,20 @@ const select = () => {
                 >
                     <Table>
                         <template #table-action>
-                            <div class="flex shrink-0 rounded-sm overflow-hidden">
-                                <DeleteBulk
+                            <div
+                                class="flex shrink-0 rounded-sm overflow-hidden"
+                            >
+                                <DeleteBulkComponent
                                     v-show="
                                         data.selectedId.length != 0 &&
                                         can(['activity delete'])
                                     "
                                     :selectedId="data.selectedId"
                                     :title="props.title"
+                                    :endpoint="route('activity.destroy-bulk')"
                                     @close="
-                                        (data.selectedId = []),
-                                            (data.multipleSelect = false)
+                                        ((data.selectedId = []),
+                                        (data.multipleSelect = false))
                                     "
                                 />
                             </div>
@@ -212,8 +215,13 @@ const select = () => {
                                 <td class="whitespace-nowrap px-4 py-2">
                                     {{ activity.description }}
                                 </td>
-                                <td class="whitespace-nowrap px-4 py-2 max-w-xs truncate">
-                                    <Properties title="Properties" :data="activity.properties" />
+                                <td
+                                    class="whitespace-nowrap px-4 py-2 max-w-xs truncate"
+                                >
+                                    <Properties
+                                        title="Properties"
+                                        :data="activity.properties"
+                                    />
                                 </td>
                                 <td class="whitespace-nowrap px-4 py-2">
                                     {{ activity.created_at }}
@@ -224,11 +232,15 @@ const select = () => {
                                     <div
                                         class="flex w-fit rounded-sm overflow-hidden"
                                     >
-                                        <Delete
+                                        <DeleteComponent
                                             v-show="can(['activity delete'])"
                                             :title="props.title"
-                                            :activity="data.activity"
-                                            @open="data.activity = activity"
+                                            :endpoint="
+                                                route(
+                                                    'activity.destroy',
+                                                    activity.id,
+                                                )
+                                            "
                                         />
                                     </div>
                                 </td>

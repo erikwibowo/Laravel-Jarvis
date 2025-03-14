@@ -7,14 +7,14 @@ import TablePagination from "@/Components/TablePagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Create from "@/Pages/Role/Create.vue";
 import Edit from "@/Pages/Role/Edit.vue";
-import Delete from "@/Pages/Role/Delete.vue";
-import DeleteBulk from "@/Pages/Role/DeleteBulk.vue";
 import Permission from "@/Pages/Role/Permission.vue";
 import { reactive, watch } from "vue";
 import pkg from "lodash";
 import { router } from "@inertiajs/vue3";
 import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 import Checkbox from "@/Components/Checkbox.vue";
+import DeleteBulkComponent from "../../Components/DeleteBulkComponent.vue";
+import DeleteComponent from "../../Components/DeleteComponent.vue";
 
 const { _, debounce, pickBy } = pkg;
 const props = defineProps({
@@ -52,7 +52,7 @@ watch(
             preserveState: true,
             preserveScroll: true,
         });
-    }, 150)
+    }, 150),
 );
 
 const selectAll = (event) => {
@@ -89,22 +89,25 @@ const select = () => {
                 >
                     <Table>
                         <template #table-action>
-                            <div class="flex shrink-0 rounded-sm overflow-hidden">
+                            <div
+                                class="flex shrink-0 rounded-sm overflow-hidden"
+                            >
                                 <Create
                                     v-show="can(['role create'])"
                                     :title="props.title"
                                     :permissions="props.permissions"
                                 />
-                                <DeleteBulk
+                                <DeleteBulkComponent
                                     v-show="
                                         data.selectedId.length != 0 &&
                                         can(['role delete'])
                                     "
                                     :selectedId="data.selectedId"
                                     :title="props.title"
+                                    :endpoint="route('role.destroy-bulk')"
                                     @close="
-                                        (data.selectedId = []),
-                                            (data.multipleSelect = false)
+                                        ((data.selectedId = []),
+                                        (data.multipleSelect = false))
                                     "
                                 />
                             </div>
@@ -207,7 +210,7 @@ const select = () => {
                                                     (total, data) =>
                                                         total +
                                                         data.data.length,
-                                                    0
+                                                    0,
                                                 )
                                             "
                                             :permissions="role.permissions"
@@ -244,11 +247,12 @@ const select = () => {
                                             @open="data.role = role"
                                             :permissions="props.permissions"
                                         />
-                                        <Delete
+                                        <DeleteComponent
                                             v-show="can(['role delete'])"
                                             :title="props.title"
-                                            :role="data.role"
-                                            @open="data.role = role"
+                                            :endpoint="
+                                                route('role.destroy', role.id)
+                                            "
                                         />
                                     </div>
                                 </td>

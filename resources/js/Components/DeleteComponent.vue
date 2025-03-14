@@ -11,13 +11,13 @@ const emit = defineEmits(["open"]);
 const show = ref(false);
 const props = defineProps({
     title: String,
-    role: Object,
+    endpoint: String,
 });
 
 const form = useForm({});
 
 const submit = () => {
-    form.delete(route("role.destroy", props.role?.id), {
+    form.delete(props.endpoint, {
         preserveScroll: true,
         onSuccess: () => closeModal(),
         onError: () => null,
@@ -34,7 +34,7 @@ const closeModal = () => {
         <ActionButton
             v-tooltip="lang().label.delete"
             variant="danger"
-            @click.prevent="(show = true), emit('open')"
+            @click.prevent="((show = true), emit('open'))"
         >
             <TrashIcon class="w-4 h-auto" />
         </ActionButton>
@@ -44,7 +44,7 @@ const closeModal = () => {
             </template>
 
             <template #content>
-                {{ lang().label.delete_confirm }} {{ props.role?.name }}?
+                {{ lang().label.delete_confirm }} {{ props.user?.name }}?
             </template>
 
             <template #footer>
