@@ -1,25 +1,36 @@
 <script setup>
 import ConfirmationModal from "@/Components/ConfirmationModal.vue";
-import ActionButton from "@/Components/ActionButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { TrashIcon } from "@heroicons/vue/24/outline";
 
-const emit = defineEmits(["open"]);
+const emit = defineEmits(["close"]);
 const show = ref(false);
 const props = defineProps({
     title: String,
-    permission: Object,
+    selectedId: Object,
+    endpoint: String,
 });
 
-const form = useForm({});
+const form = useForm({
+    id: [],
+});
+
+watchEffect(() => {
+    if (show) {
+        form.id = props.selectedId;
+    }
+});
 
 const submit = () => {
-    form.delete(route("permission.destroy", props.permission?.id), {
+    form.post(props.endpoint, {
         preserveScroll: true,
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+            closeModal();
+            emit("close");
+        },
         onError: () => null,
         onFinish: () => null,
     });
@@ -31,22 +42,21 @@ const closeModal = () => {
 </script>
 <template>
     <div>
-        <ActionButton
-            v-tooltip="lang().label.delete"
-            variant="danger"
-            @click.prevent="(show = true), emit('open')"
+        <DangerButton
+            v-tooltip="lang().label.delete_selected"
+            class="rounded-none"
+            @click.prevent="show = true"
         >
             <TrashIcon class="w-4 h-auto" />
-        </ActionButton>
+        </DangerButton>
         <ConfirmationModal :show="show" @close="closeModal">
             <template #title>
-                {{ lang().label.delete }} {{ props.title }}
+                {{ lang().label.delete_selected }} {{ props.title }}
             </template>
 
             <template #content>
                 {{ lang().label.delete_confirm }}
-                <span class="font-black">{{ props.permission?.name }}</span
-                >?
+                {{ props.selectedId?.length }} {{ props.title }}?
             </template>
 
             <template #footer>
