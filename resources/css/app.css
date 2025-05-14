@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
@@ -9,11 +9,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans:
-    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 
-  --color-primary: rgb(var(--base-color));
+    --color-primary: rgb(var(--base-color));
 }
 
 /*
@@ -25,19 +25,19 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
 }
 
 @layer base {
-  :root {
-    --base-color: 9 135 219;
-  }
+    :root {
+        --base-color: 0 186 124;
+    }
 }
 
 html {
