@@ -12,8 +12,8 @@ import pkg from "lodash";
 import { router } from "@inertiajs/vue3";
 import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 import Checkbox from "@/Components/Checkbox.vue";
-import DeleteComponent from "@/Components/DeleteComponent";
-import DeleteBulkComponent from "@/Components/DeleteBulkComponent";
+import DeleteComponent from "@/Components/DeleteComponent.vue";
+import DeleteBulkComponent from "@/Components/DeleteBulkComponent.vue";
 
 const { _, debounce, pickBy } = pkg;
 const props = defineProps({
