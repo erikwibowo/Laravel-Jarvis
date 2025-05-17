@@ -14,7 +14,6 @@ const emit = defineEmits(["open"]);
 const show = ref(false);
 const props = defineProps({
     title: String,
-    roles: Object,
     {{modelNameLowerCase}}: Object,
 });
 

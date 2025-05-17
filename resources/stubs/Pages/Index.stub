@@ -7,13 +7,13 @@ import TablePagination from "@/Components/TablePagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Create from "@/Pages/{{modelName}}/Create.vue";
 import Edit from "@/Pages/{{modelName}}/Edit.vue";
-import Delete from "@/Pages/{{modelName}}/Delete.vue";
-import DeleteBulk from "@/Pages/{{modelName}}/DeleteBulk.vue";
 import { reactive, watch } from "vue";
 import pkg from "lodash";
 import { router } from "@inertiajs/vue3";
 import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 import Checkbox from "@/Components/Checkbox.vue";
+import DeleteComponent from "@/Components/DeleteComponent";
+import DeleteBulkComponent from "@/Components/DeleteBulkComponent";
 
 const { _, debounce, pickBy } = pkg;
 const props = defineProps({
@@ -92,16 +92,17 @@ const select = () => {
                                     v-show="can(['{{modelNameLowerCase}} create'])"
                                     :title="props.title"
                                 />
-                                <DeleteBulk
+                                <DeleteBulkComponent
                                     v-show="
                                         data.selectedId.length != 0 &&
                                         can(['{{modelNameLowerCase}} delete'])
                                     "
                                     :selectedId="data.selectedId"
                                     :title="props.title"
+                                    :endpoint="route('{{modelNameLowerCase}}.destroy-bulk')"
                                     @close="
-                                        (data.selectedId = []),
-                                            (data.multipleSelect = false)
+                                        ((data.selectedId = []),
+                                        (data.multipleSelect = false))
                                     "
                                 />
                             </div>
@@ -199,11 +200,15 @@ const select = () => {
                                             :{{modelNameLowerCase}}="data.{{modelNameLowerCase}}"
                                             @open="data.{{modelNameLowerCase}} = {{modelNameLowerCase}}"
                                         />
-                                        <Delete
+                                        <DeleteComponent
                                             v-show="can(['{{modelNameLowerCase}} delete'])"
                                             :title="props.title"
-                                            :{{modelNameLowerCase}}="data.{{modelNameLowerCase}}"
-                                            @open="data.{{modelNameLowerCase}} = {{modelNameLowerCase}}"
+                                            :endpoint="
+                                                route(
+                                                    '{{modelNameLowerCase}}.destroy',
+                                                    {{modelNameLowerCase}}.id,
+                                                )
+                                            "
                                         />
                                     </div>
                                 </td>
