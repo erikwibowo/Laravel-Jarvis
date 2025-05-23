@@ -26,7 +26,7 @@ watch(
         } else {
             document.body.style.overflow = null;
         }
-    }
+    },
 );
 
 const close = () => {
@@ -68,10 +68,10 @@ const maxWidthClass = computed(() => {
     <teleport to="body">
         <transition leave-active-class="duration-200">
             <div
-                v-show="show"
+                v-if="show"
                 class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
-                scroll-region
             >
+                <!-- backdrop -->
                 <transition
                     enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0"
@@ -81,7 +81,7 @@ const maxWidthClass = computed(() => {
                     leave-to-class="opacity-0"
                 >
                     <div
-                        v-show="show"
+                        v-if="show"
                         class="fixed inset-0 transform transition-all"
                         @click="close"
                     >
@@ -91,6 +91,7 @@ const maxWidthClass = computed(() => {
                     </div>
                 </transition>
 
+                <!-- modal content -->
                 <transition
                     enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -100,11 +101,11 @@ const maxWidthClass = computed(() => {
                     leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <div
-                        v-show="show"
+                        v-if="show"
                         class="mb-6 bg-white dark:bg-slate-800 rounded-sm overflow-hidden shadow-sm transform transition-all sm:w-full sm:mx-auto"
                         :class="maxWidthClass"
                     >
-                        <slot v-if="show" />
+                        <slot />
                     </div>
                 </transition>
             </div>
