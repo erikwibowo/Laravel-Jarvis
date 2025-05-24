@@ -55,20 +55,22 @@ class Jarvis extends Command
 
             // === creating permission CRUD ===
             foreach (['delete', 'update', 'read', 'create'] as $action) {
-                Permission::create([
-                    'name' => strtolower($name) . " $action",
-                    'guard_name' => 'web'
-                ]);
+                $permissionName = strtolower($name) . " $action";
+
+                Permission::firstOrCreate(
+                    ['name' => $permissionName, 'guard_name' => 'web']
+                );
             }
 
             // === giving access to superadmin ===
             $superadmin = Role::where(['name' => 'superadmin'])->first();
-            $superadmin->givePermissionTo([
-                strtolower($name).' delete',
-                strtolower($name).' update',
-                strtolower($name).' read',
-                strtolower($name).' create',
-            ]);
+            if ($superadmin) {
+                $permissions = collect(['delete', 'update', 'read', 'create'])
+                    ->map(fn($action) => strtolower($name) . " $action")
+                    ->all();
+
+                $superadmin->givePermissionTo($permissions);
+            }
 
             // === generate complete resource ===
             render(view('cli.jarvis', [
