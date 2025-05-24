@@ -19,34 +19,32 @@ const show = ref(false);
 const props = defineProps({
     title: String,
     formSchema: { type: String, default: "create" },
-    roles: Object,
-    permission: Object,
+    {{modelNameLowerCase}}: Object,
 });
 
 // default form
 const form = useForm({
     name: "",
-    guard_name: "web",
 });
 
 // if form schema value = update
 onUpdated(() => {
     if (show && props.formSchema === "update") {
-        form.name = props.permission?.name;
+        form.name = props.{{modelNameLowerCase}}?.name;
     }
 });
 
 // submitting form
 const submit = () => {
-    if (props.formSchema === "create") {
-        form.post(route("permission.store"), {
+ if (props.formSchema === "create") {
+    form.post(route("{{modelNameLowerCase}}.store"), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => null,
             onFinish: () => null,
         });
     } else {
-        form.put(route("permission.update", props.permission?.id), {
+    form.put(route("{{modelNameLowerCase}}.update", props.{{modelNameLowerCase}}?.id), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => null,
@@ -62,7 +60,6 @@ const closeModal = () => {
     form.reset();
 };
 </script>
-
 <template>
     <div>
         <!-- Trigger Button -->
@@ -97,14 +94,14 @@ const closeModal = () => {
             <template #content>
                 <form class="space-y-2" @submit.prevent="submit">
                     <div class="space-y-1">
-                        <InputLabel for="name" :value="lang().label.name" />
+                        <InputLabel for="name" value="{{modelName}} Name" />
                         <TextInput
                             id="name"
                             v-model="form.name"
                             type="text"
                             class="block w-full"
                             autocomplete="name"
-                            :placeholder="lang().placeholder.permission_name"
+                            placeholder="{{modelName}} Name"
                             :error="form.errors.name"
                         />
                         <InputError :message="form.errors.name" />
@@ -132,5 +129,3 @@ const closeModal = () => {
         </DialogModal>
     </div>
 </template>
-
-<style scoped></style>

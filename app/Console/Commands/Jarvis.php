@@ -7,246 +7,185 @@ use App\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Throwable;
 use function Termwind\{render};
 
 class Jarvis extends Command
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
+     * signature naming.
      */
-    protected $signature = 'jarvis:generate {name}';
+    protected $signature = 'jarvis:generate {name : The name of the resource} {--p|page : Generate only Vue page}';
 
     /**
-     * The console command description.
-     *
-     * @var string
+     * signature description.
      */
-    protected $description = 'Generate resource model app';
+    protected $description = 'Generate all resource model app and route => Controller, Model, Migration, Request, Route, Page. use option -p or --page to generate only vue page';
 
     /**
-     * Execute the console command.
+     * running commands
      */
-    public function handle()
+    public function handle(): int
     {
-        $name = ucfirst($this->argument('name'));
-        $this->makeDir(resource_path("/js/Pages/{$name}"));
-        $this->makeDir(app_path("/HTTP/Requests/{$name}"));
-        $this->makeDir(base_path("/routes/jarvis"));
-        File::append(
-            base_path('routes/jarvis.php'),
-            "require __DIR__.'/jarvis/" . strtolower($name) . ".php';
-"
-        );
+        try {
+            $name = ucfirst($this->argument('name'));
 
-        Permission::create(['name' => strtolower($name) . ' delete', 'guard_name' => 'web']);
-        Permission::create(['name' => strtolower($name) . ' update', 'guard_name' => 'web']);
-        Permission::create(['name' => strtolower($name) . ' read', 'guard_name' => 'web']);
-        Permission::create(['name' => strtolower($name) . ' create', 'guard_name' => 'web']);
-        $superadmin = Role::where(['name' => 'superadmin'])->first();
-        $superadmin->givePermissionTo([
-            strtolower($name) . ' delete',
-            strtolower($name) . ' update',
-            strtolower($name) . ' read',
-            strtolower($name) . ' create',
-        ]);
+            // === only generate vue page using param --p or --page===
+            if ($this->option('page')) {
+                $this->makeDir(resource_path("/js/Pages/$name"));
 
-        render(view('cli.jarvis', [
-            'controller' => $this->controller($name),
-            'model' => $this->model($name),
-            'migration' => $this->migration($name),
-            'indexRequest' => $this->indexRequest($name),
-            'storeRequest' => $this->storeRequest($name),
-            'updateRequest' => $this->updateRequest($name),
-            'pageIndex' => $this->pageIndex($name),
-            'pageCreate' => $this->pageCreate($name),
-            'pageEdit' => $this->pageEdit($name),
-            'permission' => strtolower($name) . " permission",
-            'route' => $this->route($name)
-        ]));
+                render(view('cli.pages', [
+                    'pageIndex' => $this->pageIndex($name),
+                    'pageForm' => $this->pageForm($name),
+                ]));
 
-        return self::SUCCESS;
+                return self::SUCCESS;
+            }
+
+            // === Creating Resources ===
+            $this->makeDir(resource_path("/js/Pages/$name"));
+            $this->makeDir(app_path("/Http/Requests/$name"));
+            $this->makeDir(base_path("/routes/jarvis"));
+
+            // === creating special route for resource ===
+            File::append(
+                base_path('routes/jarvis.php'),
+                "require __DIR__.'/jarvis/".strtolower($name).".php';\n"
+            );
+
+            // === creating permission CRUD ===
+            foreach (['delete', 'update', 'read', 'create'] as $action) {
+                Permission::create([
+                    'name' => strtolower($name) . " $action",
+                    'guard_name' => 'web'
+                ]);
+            }
+
+            // === giving access to superadmin ===
+            $superadmin = Role::where(['name' => 'superadmin'])->first();
+            $superadmin->givePermissionTo([
+                strtolower($name).' delete',
+                strtolower($name).' update',
+                strtolower($name).' read',
+                strtolower($name).' create',
+            ]);
+
+            // === generate complete resource ===
+            render(view('cli.jarvis', [
+                'controller' => $this->controller($name),
+                'model' => $this->model($name),
+                'migration' => $this->migration($name),
+                'storeRequest' => $this->storeRequest($name),
+                'updateRequest' => $this->updateRequest($name),
+                'pageIndex' => $this->pageIndex($name),
+                'pageForm' => $this->pageForm($name),
+                'permission' => strtolower($name) . " permission",
+                'route' => $this->route($name)
+            ]));
+
+            return self::SUCCESS;
+        } catch (Throwable $th) {
+            // === catching error ===
+            $this->error("Terjadi kesalahan: " . $th->getMessage());
+            return self::FAILURE;
+        }
     }
 
+    // === Generate Controller from stub ===
     protected function controller($name): string
     {
-        $params = str_replace(
-            [
-                '{{modelName}}',
-                '{{modelNamePlural}}',
-                '{{modelNameLowerCase}}',
-                '{{modelNamePluralLowerCase}}',
-            ],
-            [
-                $name,
-                Str::plural($name),
-                strtolower($name),
-                strtolower(Str::plural($name)),
-            ],
-            $this->getStub('Controller')
-        );
-        file_put_contents(app_path("/Http/Controllers/{$name}Controller.php"), $params);
+        $params = $this->replaceStub('Controller', $name);
+        file_put_contents(app_path("/Http/Controllers/{$name}Controller.php"), $params, LOCK_EX);
         return "app/Http/Controllers/{$name}Controller.php";
     }
 
+    // === Generate Model from stub ===
     protected function model($name): string
     {
-        $params = str_replace(
-            ['{{modelName}}', '{{modelNamePlural}}'],
-            [$name, strtolower(Str::plural($name))],
-            $this->getStub('Model')
-        );
-        file_put_contents(app_path("/Models/{$name}.php"), $params);
-        return "app/Models/{$name}.php";
+        $params = $this->replaceStub('Model', $name);
+        file_put_contents(app_path("/Models/$name.php"), $params, LOCK_EX);
+        return "app/Models/$name.php";
     }
 
+    // === Generate Migration with timestamp from stub ===
     public function migration($name): string
     {
-        $modelNamePluralLowerCase = strtolower(Str::plural($name));
-        $params = str_replace(
-            [
-                '{{modelNamePluralLowerCase}}',
-            ],
-            [
-                $modelNamePluralLowerCase,
-            ],
-            $this->getStub('Migration')
-        );
-        $path = "/migrations/" . date('Y_m_d_His_') . "create_{$modelNamePluralLowerCase}_table.php";
-        file_put_contents(database_path($path), $params);
+        $path = "/migrations/" . date('Y_m_d_His_') . "create_" . strtolower(Str::plural($name)) . "_table.php";
+        $params = $this->replaceStub('Migration', $name);
+        file_put_contents(database_path($path), $params, LOCK_EX);
         return "database/" . $path;
     }
 
-    public function indexRequest($name): string
-    {
-        $params = str_replace(
-            [
-                '{{modelName}}',
-            ],
-            [
-                $name,
-            ],
-            $this->getStub('Requests/Index')
-        );
-        $path = "/HTTP/Requests/{$name}/{$name}IndexRequest.php";
-        file_put_contents(app_path($path), $params);
-        return "app" . $path;
-    }
-
+    // === Generate Form Request for Store from stub ===
     public function storeRequest($name): string
     {
-        $params = str_replace(
-            [
-                '{{modelName}}',
-            ],
-            [
-                $name,
-            ],
-            $this->getStub('Requests/Store')
-        );
-        $path = "/HTTP/Requests/{$name}/{$name}StoreRequest.php";
-        file_put_contents(app_path($path), $params);
+        $path = "/Http/Requests/$name/{$name}StoreRequest.php";
+        $params = $this->replaceStub('Requests/Store', $name);
+        file_put_contents(app_path($path), $params, LOCK_EX);
         return "app" . $path;
     }
 
+    // === Generate Form Request for Update from stub ===
     public function updateRequest($name): string
     {
-        $params = str_replace(
-            [
-                '{{modelName}}',
-            ],
-            [
-                $name,
-            ],
-            $this->getStub('Requests/Update')
-        );
-        $path = "/HTTP/Requests/{$name}/{$name}UpdateRequest.php";
-        file_put_contents(app_path($path), $params);
+        $path = "/Http/Requests/$name/{$name}UpdateRequest.php";
+        $params = $this->replaceStub('Requests/Update', $name);
+        file_put_contents(app_path($path), $params, LOCK_EX);
         return "app" . $path;
     }
 
+    // === Generate File Index.vue from stub ===
     public function pageIndex($name): string
     {
-        $params = str_replace(
+        $path = "/js/Pages/$name/Index.vue";
+        $params = $this->replaceStub('Pages/Index', $name);
+        file_put_contents(resource_path($path), $params, LOCK_EX);
+        return "resources" . $path;
+    }
+
+    // === Generate File Form.vue from stub ===
+    public function pageForm($name): string
+    {
+        $path = "/js/Pages/$name/$name" . "Form.vue";
+        $params = $this->replaceStub('Pages/Form', $name);
+        file_put_contents(resource_path($path), $params, LOCK_EX);
+        return "resources" . $path;
+    }
+
+    // === Generate File Route for this resource from stub ===
+    public function route($name): string
+    {
+        $path = "/routes/jarvis/" . strtolower($name) . ".php";
+        $params = $this->replaceStub('Route', $name);
+        file_put_contents(base_path($path), $params, LOCK_EX);
+        return "app" . $path;
+    }
+
+    // === replacing stub with the current name ===
+    protected function replaceStub($stubName, $name): string
+    {
+        $stub = file_get_contents(resource_path("stubs/$stubName.stub"));
+
+        return str_replace(
             [
                 '{{modelName}}',
                 '{{modelNameLowerCase}}',
                 '{{modelNamePluralLowerCase}}',
+                '{{modelNamePlural}}'
             ],
             [
                 $name,
                 strtolower($name),
                 strtolower(Str::plural($name)),
+                Str::plural($name)
             ],
-            $this->getStub('Pages/Index')
+            $stub
         );
-        $path = "/js/Pages/{$name}/Index.vue";
-        file_put_contents(resource_path($path), $params);
-        return "resources" . $path;
     }
 
-    public function pageCreate($name): string
+    // === create directory if not exist ===
+    protected function makeDir($path): bool
     {
-        $params = str_replace(
-            [
-                '{{modelName}}',
-                '{{modelNameLowerCase}}',
-            ],
-            [
-                $name,
-                strtolower($name),
-            ],
-            $this->getStub('Pages/Create')
-        );
-        $path = "/js/Pages/{$name}/Create.vue";
-        file_put_contents(resource_path($path), $params);
-        return "resources" . $path;
-    }
-
-    public function pageEdit($name): string
-    {
-        $params = str_replace(
-            [
-                '{{modelName}}',
-                '{{modelNameLowerCase}}',
-            ],
-            [
-                $name,
-                strtolower($name),
-            ],
-            $this->getStub('Pages/Edit')
-        );
-        $path = "/js/Pages/{$name}/Edit.vue";
-        file_put_contents(resource_path($path), $params);
-        return "resources" . $path;
-    }
-
-    public function route($name): string
-    {
-        $params = str_replace(
-            [
-                '{{modelName}}',
-                '{{modelNameLowerCase}}',
-            ],
-            [
-                $name,
-                strtolower($name),
-            ],
-            $this->getStub('Route')
-        );
-        $path = "/routes/jarvis/" . strtolower($name) . ".php";
-        file_put_contents(base_path($path), $params);
-        return "app" . $path;
-    }
-
-    protected function getStub($type)
-    {
-        return file_get_contents(resource_path("stubs/$type.stub"));
-    }
-
-    protected function makeDir($path)
-    {
-        return is_dir($path) || mkdir($path);
+        return is_dir($path) || mkdir($path, 0777, true);
     }
 }
