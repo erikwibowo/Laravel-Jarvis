@@ -5,8 +5,7 @@ import Breadcrumb from "@/Layouts/Authenticated/Breadcrumb.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TablePagination from "@/Components/TablePagination.vue";
 import TextInput from "@/Components/TextInput.vue";
-import Create from "@/Pages/Role/Create.vue";
-import Edit from "@/Pages/Role/Edit.vue";
+import RoleForm from "@/Pages/Role/RoleForm.vue";
 import Permission from "@/Pages/Role/Permission.vue";
 import { reactive, watch } from "vue";
 import pkg from "lodash";
@@ -92,10 +91,11 @@ const select = () => {
                             <div
                                 class="flex shrink-0 rounded-sm overflow-hidden"
                             >
-                                <Create
+                                <RoleForm
                                     v-show="can(['role create'])"
                                     :title="props.title"
                                     :permissions="props.permissions"
+                                    form-schema="create"
                                 />
                                 <DeleteBulkComponent
                                     v-show="
@@ -240,12 +240,13 @@ const select = () => {
                                     <div
                                         class="flex w-fit rounded-sm overflow-hidden"
                                     >
-                                        <Edit
+                                        <RoleForm
                                             v-show="can(['role update'])"
                                             :title="props.title"
                                             :role="data.role"
                                             @open="data.role = role"
                                             :permissions="props.permissions"
+                                            form-schema="update"
                                         />
                                         <DeleteComponent
                                             v-show="can(['role delete'])"

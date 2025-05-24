@@ -25,6 +25,7 @@
         "floating-vue": "^2.0.0-beta.20",
         "lodash": "^4.17.21",
         "vue-json-viewer": "^3.0.4",
-        "vue3-lottie": "^2.7.0"
+        "vue3-lottie": "^2.7.0",
+        "ziggy-js": "^2.5.3"
     }
 }

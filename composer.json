@@ -22,6 +22,7 @@
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/common": "^3.1",
         "laravel/pint": "^1.0",

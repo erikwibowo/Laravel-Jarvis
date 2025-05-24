@@ -5,8 +5,7 @@ import Breadcrumb from "@/Layouts/Authenticated/Breadcrumb.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TablePagination from "@/Components/TablePagination.vue";
 import TextInput from "@/Components/TextInput.vue";
-import Create from "@/Pages/{{modelName}}/Create.vue";
-import Edit from "@/Pages/{{modelName}}/Edit.vue";
+import {{modelName}}Form from "@/Pages/{{modelName}}/{{modelName}}Form.vue";
 import { reactive, watch } from "vue";
 import pkg from "lodash";
 import { router } from "@inertiajs/vue3";
@@ -88,9 +87,10 @@ const select = () => {
                     <Table>
                         <template #table-action>
                             <div class="flex shrink-0 rounded overflow-hidden">
-                                <Create
+                                <{{modelName}}Form
                                     v-show="can(['{{modelNameLowerCase}} create'])"
                                     :title="props.title"
+                                    form-schema="create"
                                 />
                                 <DeleteBulkComponent
                                     v-show="
@@ -194,11 +194,12 @@ const select = () => {
                                     <div
                                         class="flex w-fit rounded overflow-hidden"
                                     >
-                                        <Edit
+                                        <{{modelName}}Form
                                             v-show="can(['{{modelNameLowerCase}} update'])"
                                             :title="props.title"
                                             :{{modelNameLowerCase}}="data.{{modelNameLowerCase}}"
                                             @open="data.{{modelNameLowerCase}} = {{modelNameLowerCase}}"
+                                            form-schema="update"
                                         />
                                         <DeleteComponent
                                             v-show="can(['{{modelNameLowerCase}} delete'])"
