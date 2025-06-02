@@ -5,48 +5,34 @@ import "floating-vue/dist/style.css";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
-import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
+import { ZiggyVue } from "ziggy-js";
 import { usePage } from "@inertiajs/vue3";
 import FloatingVue from "floating-vue";
 import Vue3Lottie from "vue3-lottie";
 import "vue3-lottie/dist/style.css";
-import JsonViewer from 'vue-json-viewer'
+import JsonViewer from "vue-json-viewer";
+import GlobalMixin from "./Mixins/global";
 
-const appName =
-    window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
+const pages = import.meta.glob("./Pages/**/*.vue");
 
 createInertiaApp({
-    title: (title) => `${title} - ${usePage().props.app.setting.name}`,
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob("./Pages/**/*.vue")
-        ),
+    title: (title) =>
+        title
+            ? `${title} | ${usePage().props?.app?.setting?.short_name || "Laravel"}`
+            : `${usePage().props?.app?.setting?.short_name || "Laravel"}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, pages),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        // ✅ Deklarasi `vueApp` terlebih dahulu sebelum mengakses `config.globalProperties`
+        const vueApp = createApp({ render: () => h(App, props) });
+
+        // ✅ Gunakan semua plugin & mixin sebelum mounting
+        return vueApp
             .use(plugin)
-            .use(ZiggyVue, Ziggy)
+            .use(ZiggyVue)
             .use(FloatingVue)
             .use(Vue3Lottie)
             .use(JsonViewer)
-            .mixin({
-                methods: {
-                    can: function (permissions) {
-                        var allPermissions = this.$page.props.can;
-                        var hasPermission = false;
-                        permissions.forEach(function (item) {
-                            if (allPermissions[item]) hasPermission = true;
-                        });
-                        return hasPermission;
-                    },
-                    lang: function () {
-                        return usePage().props.app.language.original;
-                    },
-                    num(value) {
-                        return new Intl.NumberFormat("id-ID").format(value);
-                    },
-                },
-            })
+            .mixin(GlobalMixin)
             .mount(el);
     },
     progress: {

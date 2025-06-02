@@ -2,13 +2,13 @@
 import DialogModal from "@/Components/DialogModal.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
-import ActionButton from "@/Components/ActionButton.vue";
+import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+import ActionButton from "@/Components/ActionButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import { reactive, ref, onUpdated } from "vue";
-import { PencilIcon } from "@heroicons/vue/24/outline";
+import { PlusIcon, PencilIcon } from "@heroicons/vue/24/outline";
 import Checkbox from "@/Components/Checkbox.vue";
 
 const emit = defineEmits(["open"]);
@@ -17,44 +17,53 @@ const props = defineProps({
     title: String,
     permissions: Object,
     role: Object,
+    formSchema: { type: String, default: "create" },
 });
 
 const data = reactive({
     multipleSelect: false,
 });
 
+// default form
 const form = useForm({
     name: "",
     guard_name: "web",
     permissions: [],
 });
 
+// if form schema is update/edit
 onUpdated(() => {
-    if (show) {
+    if (show && props.formSchema === "update") {
         form.name = props.role?.name;
         form.permissions = props.role?.permissions?.map((d) => d.id);
     }
-    if (
+    data.multipleSelect =
         props.permissions.reduce(
             (total, data) => total + data.data.length,
-            0
-        ) == props.role?.permissions.length
-    ) {
-        data.multipleSelect = true;
-    } else {
-        data.multipleSelect = false;
-    }
+            0,
+        ) === props.role?.permissions.length;
 });
 
+// submitting form
 const submit = () => {
-    form.put(route("role.update", props.role?.id), {
-        preserveScroll: true,
-        onSuccess: () => closeModal(),
-        onError: () => null,
-        onFinish: () => null,
-    });
+    if (props.formSchema === "create") {
+        form.post(route("role.store"), {
+            preserveScroll: true,
+            onSuccess: () => closeModal(),
+            onError: () => null,
+            onFinish: () => null,
+        });
+    } else {
+        form.put(route("role.update", props.role?.id), {
+            preserveScroll: true,
+            onSuccess: () => closeModal(),
+            onError: () => null,
+            onFinish: () => null,
+        });
+    }
 };
 
+// closing modal
 const closeModal = () => {
     show.value = false;
     form.errors = {};
@@ -62,6 +71,7 @@ const closeModal = () => {
     data.multipleSelect = false;
 };
 
+// add the logic method here
 const selectAll = (event) => {
     if (event.target.checked === false) {
         form.permissions = [];
@@ -74,29 +84,43 @@ const selectAll = (event) => {
     }
 };
 const select = () => {
-    if (
+    data.multipleSelect =
         props.permissions.reduce(
             (total, data) => total + data.data.length,
-            0
-        ) == form.permissions.length
-    ) {
-        data.multipleSelect = true;
-    } else {
-        data.multipleSelect = false;
-    }
+            0,
+        ) === form.permissions.length;
 };
 </script>
+
 <template>
     <div>
-        <ActionButton
-            v-tooltip="lang().label.edit"
-            @click.prevent="(show = true), emit('open')"
+        <!-- Trigger Button -->
+        <PrimaryButton
+            v-if="formSchema === 'create'"
+            class="flex items-center gap-2"
+            @click.prevent="show = true"
         >
-            <PencilIcon class="w-4 h-auto" />
+            <PlusIcon class="w-4" />
+            <span class="hidden md:block">{{ lang().label.add }}</span>
+        </PrimaryButton>
+
+        <ActionButton
+            v-else
+            v-tooltip="lang().label.edit"
+            @click.prevent="((show = true), emit('open'))"
+        >
+            <PencilIcon class="w-4" />
         </ActionButton>
-        <DialogModal :show="show" @close="closeModal" max-width="md">
+
+        <!-- Modal Form -->
+        <DialogModal :show="show" @close="closeModal">
             <template #title>
-                {{ lang().label.edit }} {{ props.title }}
+                {{
+                    formSchema === "create"
+                        ? lang().label.add
+                        : lang().label.edit
+                }}
+                {{ title }}
             </template>
 
             <template #content>
@@ -178,19 +202,24 @@ const select = () => {
             </template>
 
             <template #footer>
-                <SecondaryButton @click="closeModal">
-                    {{ lang().button.cancel }}
-                </SecondaryButton>
+                <div class="flex gap-4">
+                    <SecondaryButton @click="closeModal">
+                        {{ lang().button.cancel }}
+                    </SecondaryButton>
 
-                <PrimaryButton
-                    class="ml-3"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                    @click="submit"
-                >
-                    {{ lang().button.save }} {{ form.processing ? "..." : "" }}
-                </PrimaryButton>
+                    <PrimaryButton
+                        class="ml-3"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                        @click="submit"
+                    >
+                        {{ lang().button.save }}
+                        {{ form.processing ? "..." : "" }}
+                    </PrimaryButton>
+                </div>
             </template>
         </DialogModal>
     </div>
 </template>
+
+<style scoped></style>

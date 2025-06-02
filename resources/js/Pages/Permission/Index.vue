@@ -5,8 +5,7 @@ import Breadcrumb from "@/Layouts/Authenticated/Breadcrumb.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TablePagination from "@/Components/TablePagination.vue";
 import TextInput from "@/Components/TextInput.vue";
-import Create from "@/Pages/Permission/Create.vue";
-import Edit from "@/Pages/Permission/Edit.vue";
+import PermissionForm from "@/Pages/Permission/PermissionForm.vue";
 import { reactive, watch } from "vue";
 import pkg from "lodash";
 import { router } from "@inertiajs/vue3";
@@ -90,9 +89,10 @@ const select = () => {
                             <div
                                 class="flex shrink-0 rounded-sm overflow-hidden"
                             >
-                                <Create
+                                <PermissionForm
                                     v-show="can(['permission create'])"
                                     :title="props.title"
+                                    form-schema="create"
                                 />
                                 <DeleteBulkComponent
                                     v-show="
@@ -204,11 +204,12 @@ const select = () => {
                                     <div
                                         class="flex w-fit rounded-sm overflow-hidden"
                                     >
-                                        <Edit
+                                        <PermissionForm
                                             v-show="can(['permission update'])"
                                             :title="props.title"
                                             :permission="data.permission"
                                             @open="data.permission = permission"
+                                            form-schema="update"
                                         />
                                         <DeleteComponent
                                             v-show="can(['permission delete'])"
